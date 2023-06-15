@@ -1,3 +1,21 @@
 .errorLabel {
   color: red;
+  font-size: 10px;
+  margin:0%;
+  padding:0%;
+}
+
+.signUpInput {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  outline: none;
+}
+
+.signUpInput::placeholder {
+  color: rgb(213, 211, 211);
 }

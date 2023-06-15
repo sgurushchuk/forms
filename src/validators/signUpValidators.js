@@ -1,7 +1,7 @@
 export function emailValidator(value) {
 	return /^\S{2,}@\S{2,}\.[a-zA-Z]{2,10}$/.test(value)
 		? null
-		: 'Wrong email. Email should be like someemail@gmail.com';
+		: 'Wrong email. Email should be like example@gmail.com';
 }
 
 export function passwordMinValidator(value) {

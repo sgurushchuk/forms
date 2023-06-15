@@ -13,6 +13,7 @@ export function Input({
 		<>
 			{error && <div className={styles.errorLabel}>{error}</div>}
 			<input
+				className={styles.signUpInput}
 				name={name}
 				type={type}
 				placeholder={placeholder}

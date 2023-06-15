@@ -48,8 +48,11 @@ export function App() {
 	}
 
 	return (
-		<div className={styles.AppHeader}>
-			<form onSubmit={(event) => sendData(event, signUpData)}>
+		<div className={styles.App}>
+			<form
+				className={styles.signUpForm}
+				onSubmit={(event) => sendData(event, signUpData)}
+			>
 				<Input
 					error={emailError}
 					name="email"
@@ -90,11 +93,16 @@ export function App() {
 							target,
 							confirmPassword === password
 								? null
-								: 'Confirm pass should be the same as pass',
+								: 'Confirm password should be the same',
 						);
 					}}
 				/>
-				<button ref={submitButtonRef} type="submit" disabled={!isFormValid}>
+				<button
+					className={styles.submitButton}
+					ref={submitButtonRef}
+					type="submit"
+					disabled={!isFormValid}
+				>
 					Sign-up
 				</button>
 			</form>
