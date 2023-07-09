@@ -1,4 +1,3 @@
-export function sendData(event, data) {
-	event.preventDefault();
+export function sendData(data) {
 	console.log(data);
 }

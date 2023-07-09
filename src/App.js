@@ -1,107 +1,53 @@
-import { useRef, useState } from 'react';
 import styles from './App.module.css';
 import { sendData } from './utils/sendData';
-import { validate } from './utils/validate';
 import { Input } from './components/Input';
-import {
-	passwordMinValidator,
-	emailValidator,
-	passwordSymbolsValidator,
-} from './validators/signUpValidators';
+import { useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { signUpInputScheme } from './validatorScheme/signUpInputScheme';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-export function App() {
-	const [signUpData, setSignUpData] = useState({
-		email: '',
-		password: '',
-		confirmPassword: '',
+export default function App() {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		defaultValues: { email: '', password: '' },
+		resolver: yupResolver(signUpInputScheme),
 	});
-
-	const [error, setError] = useState({
-		emailError: null,
-		passwordError: null,
-		confirmPasswordError: null,
-	});
-
 	const submitButtonRef = useRef(null);
-
-	const { email, password, confirmPassword } = signUpData;
-	const { emailError, passwordError, confirmPasswordError } = error;
-	const isFormValid =
-		emailError == null &&
-		passwordError == null &&
-		confirmPasswordError == null &&
-		email !== '' &&
-		password !== '' &&
-		confirmPassword !== '' &&
-		confirmPassword === password;
-
-	function onChange(target) {
-		setSignUpData({ ...signUpData, [target.name]: target.value });
-		isFormValid && submitButtonRef.current.focus();
-	}
-
-	function onBlur(target, validator) {
-		setError({
-			...error,
-			[`${target.name}Error`]: validator,
-		});
-	}
+	const emailError = errors.email?.message;
+	const passwordError = errors.password?.message;
+	const confirmPasswordError = errors.confirmPassword?.message;
 
 	return (
 		<div className={styles.App}>
-			<form
-				className={styles.signUpForm}
-				onSubmit={(event) => sendData(event, signUpData)}
-			>
+			<form className={styles.signUpForm} onSubmit={handleSubmit(sendData)}>
 				<Input
 					error={emailError}
 					name="email"
 					type="email"
-					value={email}
-					placeholder="Input your email"
-					onChange={({ target }) => onChange(target)}
-					onBlur={({ target }) => {
-						onBlur(target, validate(email, [emailValidator]));
-					}}
+					placeholder="Input email"
+					register={register}
 				/>
 				<Input
 					error={passwordError}
 					name="password"
 					type="password"
-					value={password}
 					placeholder="Input password"
-					onChange={({ target }) => onChange(target)}
-					onBlur={({ target }) => {
-						onBlur(
-							target,
-							validate(password, [
-								passwordMinValidator,
-								passwordSymbolsValidator,
-							]),
-						);
-					}}
+					register={register}
 				/>
 				<Input
 					error={confirmPasswordError}
 					name="confirmPassword"
 					type="password"
-					value={confirmPassword}
-					placeholder="Confirm password"
-					onChange={({ target }) => onChange(target)}
-					onBlur={({ target }) => {
-						onBlur(
-							target,
-							confirmPassword === password
-								? null
-								: 'Confirm password should be the same',
-						);
-					}}
+					placeholder="Input confirm password"
+					register={register}
 				/>
 				<button
 					className={styles.submitButton}
 					ref={submitButtonRef}
 					type="submit"
-					disabled={!isFormValid}
 				>
 					Sign-up
 				</button>
@@ -109,5 +55,3 @@ export function App() {
 		</div>
 	);
 }
-
-export default App;

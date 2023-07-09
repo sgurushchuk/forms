@@ -1,14 +1,6 @@
 import styles from './Input.module.css';
 
-export function Input({
-	error,
-	name,
-	value,
-	type,
-	placeholder,
-	onChange,
-	onBlur,
-}) {
+export function Input({ error, name, type, placeholder, register }) {
 	return (
 		<>
 			{error && <div className={styles.errorLabel}>{error}</div>}
@@ -17,9 +9,7 @@ export function Input({
 				name={name}
 				type={type}
 				placeholder={placeholder}
-				value={value}
-				onChange={onChange}
-				onBlur={onBlur}
+				{...register(name)}
 			></input>
 		</>
 	);
